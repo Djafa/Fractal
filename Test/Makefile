@@ -1,5 +1,5 @@
-testFrac : testFrac.o
-	gcc -Wall -lcunit -o Test testFrac.o -L$(HOME)/local/lib
+testFrac : testFrac.o ../libfractal/fractal.o
+	gcc -Wall -lcunit -o Test ../libfractal/fractal.o testFrac.o -L$(HOME)/local/lib
 	make clean
 	
 testFrac.o: testFrac.c  ../libfractal/fractal.h
