@@ -1,9 +1,9 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <CUnit/Basic.h>
-#include "fractal.h"
+#include "../libfractal/fractal.h"
 void getName(void) {
-	const char *name = projet;
+	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
@@ -12,29 +12,22 @@ void getName(void) {
 	CU_ASSERT_STRING_EQUAL(fractal_get_name(f), name);
 }
 
-void getValue(void) {
-	const char *name = projet;
+void setAndGetValue(void) {
+	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
-	CU_ASSERT_EQUAL(fractal_get_value(f, x, y), value);
-} 
-
-void setValue(void) {
-	const char *name = projet;
-	int width = 4;
-	int height = 2;
-	double a = 0.5;
-	double b = 0.4;
-	struct fractal *f = fractal_new(name, width, height, a, b);
-	fractal_set_value(f, x, y, val);
+	int x = 1;
+	int y = 2;
+	int value = 42;
+	fractal_set_value(f, x, y, value);
 	CU_ASSERT_EQUAL(fractal_get_value(f, x, y), value);
 }
 
 void getWidth(void) {
-	const char *name = projet;
+	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
@@ -44,7 +37,7 @@ void getWidth(void) {
 }
 
 void getHeight(void) {
-	const char *name = projet;
+	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
@@ -54,7 +47,7 @@ void getHeight(void) {
 }
 
 void getA(void) {
-	const char *name = projet;
+	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
@@ -63,8 +56,8 @@ void getA(void) {
 	CU_ASSERT_DOUBLE_EQUAL(fractal_get_a(f), a, 0);
 }
 
-void getA(void) {
-	const char *name = projet;
+void getB(void) {
+	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
@@ -88,8 +81,7 @@ int main(int argc, const char *argv[]) {
 
 	/* Ajout à la suite */
 	if(NULL == CU_add_test(pSuite, "GetName", getName) ||
-	   NULL == CU_add_test(pSuite, "GetValue", getValue) ||
-	   NULL == CU_add_test(pSuite, "SetValue", setValue) ||
+	   NULL == CU_add_test(pSuite, "SetAndGetValue", setAndGetValue) ||
 	   NULL == CU_add_test(pSuite, "GetWidth", getWidth) ||
 	   NULL == CU_add_test(pSuite, "GetHeight", getHeight) ||
 	   NULL == CU_add_test(pSuite, "GetA", getA) ||
