@@ -14,6 +14,7 @@ int main (int argc, char *argv[]) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
 			printf("%s", line);
 		}
+		fclose(file);
 	}
 	
 	
