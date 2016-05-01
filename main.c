@@ -18,11 +18,10 @@ int main (int argc, char *argv[]) {
 	}
 
 	//Test des calculs
-	const char *name = "projet";
+	const char *name = "projet1";
 	struct fractal *f = fractal_new(name, 800, 800, 0.5, 0.5);
 	int w = fractal_get_width(f);
 	int h = fractal_get_height(f);
-	printf("Valeur de w : %d \nValeur de h : %d \n",w,h);
 
 	//Calcule de chaque pixel
 	for(int x =0; x<w; x++)
@@ -30,11 +29,9 @@ int main (int argc, char *argv[]) {
 		for(int y =0; y<h ;y++)
 		{
 			fractal_compute_value(f,x,y);
-			printf("Valeur actuelle %d \n", fractal_get_value(f,x,y));
 		}
 	}
 	//On écrit la fractale
 	int err = write_bitmap_sdl(f, fractal_get_name(f));
-	printf("%d \n",err);
     return EXIT_SUCCESS;
 }
