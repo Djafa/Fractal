@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+<<<<<<< HEAD
 #include "./libfractal/fractal.h"
 
 int main()
@@ -21,4 +22,24 @@ int main()
 	}
 	//On écrit la fractale
 	write_bitmap_sdl(f, fractal_get_name(f));
+=======
+#include "libfractal/fractal.h"
+
+#define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
+
+int main (int argc, char *argv[]) {
+	char line [LENGTH_LINE] = ""; // string servant a acceuillir la ligne lue
+    FILE* file = NULL;
+    file = fopen(argv[1], "r");
+    
+    if (file != NULL) {
+		while (fgets(line, LENGTH_LINE, file) != NULL) {
+			printf("%s", line);
+		}
+		fclose(file);
+	}
+	
+	
+    return EXIT_SUCCESS;
+>>>>>>> 3301302634aa44648079a76d7d2293e10202b297
 }
