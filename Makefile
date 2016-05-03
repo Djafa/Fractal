@@ -1,9 +1,9 @@
 main: main.o libfractal/fractal.o
-	gcc -Wall -o main main.o libfractal/fractal.o libfractal/tools.o -lSDL
+	gcc -Wall -o main main.o libfractal/fractal.o libfractal/tools.o -lSDL -lpthread
 	make clean
 
 main.o: main.c libfractal/fractal.h
-	gcc -Wall -c main.c
+	gcc -Wall -c main.c -lpthread
 
 clean:
 	rm -rf *.o
