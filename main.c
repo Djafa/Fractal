@@ -32,37 +32,26 @@ int main (int argc, char *argv[]) {
 	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
 	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
 	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
-	
 
-	//Les threads
+	int nbrFile = 3;
 	int err;
-	pthread_t first; 
-	pthread_t second;
-	pthread_t third ; 
+	pthread_t threads[nbrFile];
+	char *arg [3];
+	arg [0] = str1;
+	arg [1] = str2;
+	arg [2] = str3;
 
-	err = pthread_create(&first, NULL, &lecture, str1);
-	if(err != 0)
-		printf("%d \n", err);
-	err = pthread_create(&second, NULL, &lecture, str2);
-	if(err != 0)
-		printf("%d \n", err);
-	err = pthread_create(&third, NULL, &lecture, str3);
-	if(err != 0)
-		printf("%d \n", err);
-
-	err = pthread_join(first, NULL);
-	if(err != 0)
-		printf("%d \n", err);
-	err = pthread_join(second, NULL);
-	if(err != 0)
-		printf("%d \n", err);
-	err = pthread_join(third, NULL);
-	if(err != 0)
-		printf("%d \n", err);
-
-
-
-
+	for(int i = 0;i<nbrFile ; i++){
+		err = pthread_create(&(threads[i]), NULL, &lecture,arg[i]);
+		if(err != 0)
+			printf("%d \n", err);
+	}
+	
+	for(int i = 0; i<nbrFile ; i++){
+		err = pthread_join(threads[i], NULL);
+		if(err != 0)
+			printf("%d \n", err);
+	}
 
 	//Test des calculs
 	const char *name = "projet1";
