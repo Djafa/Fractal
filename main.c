@@ -17,7 +17,7 @@ void *lecture(void *params){
     
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
-			printf("%s", line);
+			//printf("%s", line);
 		}
 		fclose(file);
 	}
