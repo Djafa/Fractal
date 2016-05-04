@@ -23,4 +23,3 @@ lib:
 clean:
 	rm -rf *.o libfractal/*.o libfractal/*.a Test/*.o
 	
-.SILENT:
