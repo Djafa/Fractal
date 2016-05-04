@@ -82,39 +82,21 @@ void *lecture(void *params){
 }
 
 struct fractal *lineToFractal(char line []){
-	printf("On rentre dans liteToFractal");
-	char *token = strtok(line, " ");
-	int count = 1;
-	//Valeur à mettre dans la structure
-	char *name;
-	int w;
-	int h;
-	double a;
-	double b;
-	while( token != NULL){
-		printf( " %s\n", token );
-		if(count == 1){
-			name = (char *)malloc(sizeof(char)*(strlen(token)+1));
-			if(name == NULL)
-				return NULL;
-			strcpy(name,token);
-		}
-		else if (count == 2)
-			w = atoi(token);
-		else if (count == 3)
-			h = atoi(token);
-		else if (count == 4)
-			a = atof(token);
-		else if(count == 5)
-			b = atof(token);
-		printf("count = %d \n", count);
-		count ++;
-		token = strtok(NULL," ");
-	}
-	printf("Création de la fractal");
-	//struct fractal *f =fractal_new(name, w, h, a, b);
+	const char *delim = " ";
+	char *token = strtok(line, delim);
+	if(token == NULL)
+		return NULL;
+	char *name  = (char *)malloc(sizeof(char)*(strlen(token)+1));
+	strcpy(name, token);
+	int w = atoi(strtok(NULL, delim));
+	int h = atoi(strtok(NULL, delim));
+	double a = atof(strtok(NULL, delim));
+	double b = atof(strtok(NULL, delim));
+	printf("Création de la fractale");
+	struct fractal *f =fractal_new(name, w, h, a, b);
 	free(name);
-	return NULL;
+	printf("on return");
+	return f;
 }
 
 
