@@ -9,6 +9,7 @@
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 
+node **head = NULL;
 
 int main (int argc, char *argv[]) {
 	/*char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
@@ -45,9 +46,11 @@ int main (int argc, char *argv[]) {
 		printf("Le thread numéro %d à fini \n", i);
 	}
 	*/
+	initStack(1);
 	char valeur [] = "fract1 800 800 0 0";
 	struct fractal *f = lineToFractal(valeur);
-	printf("Le nom de la factal est : %s", fractal_get_name(f));
+	push(head,f);
+	printf("Le nom de la factal est : %s \n", fractal_get_name(pop(head)));
     return EXIT_SUCCESS;
 }
 
