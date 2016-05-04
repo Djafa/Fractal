@@ -47,9 +47,12 @@ int main (int argc, char *argv[]) {
 	}
 	*/
 	initStack(1);
-	char valeur [] = "fract1 800 800 0 0";
+	printf("init ok");
+	char valeur [20] = "fract1 800 800 0 0 ";
 	struct fractal *f = lineToFractal(valeur);
+	printf("On va push");
 	push(head,f);
+	printf("push ok");
 	printf("Le nom de la factal est : %s \n", fractal_get_name(pop(head)));
     return EXIT_SUCCESS;
 }
@@ -79,6 +82,7 @@ void *lecture(void *params){
 }
 
 struct fractal *lineToFractal(char line []){
+	printf("On rentre dans liteToFractal");
 	char *token = strtok(line, " ");
 	int count = 1;
 	//Valeur à mettre dans la structure
@@ -103,12 +107,14 @@ struct fractal *lineToFractal(char line []){
 			a = atof(token);
 		else if(count == 5)
 			b = atof(token);
+		printf("count = %d \n", count);
 		count ++;
 		token = strtok(NULL," ");
 	}
-	struct fractal *f =fractal_new(name, w, h, a, b);
+	printf("Création de la fractal");
+	//struct fractal *f =fractal_new(name, w, h, a, b);
 	free(name);
-	return f;
+	return NULL;
 }
 
 
