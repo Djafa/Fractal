@@ -9,7 +9,10 @@
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 
-node *head = NULL;
+//Variable de classe
+double max = 0;
+struct fractal *maxF = NULL;
+pthread_mutex_t best; 
 
 int main (int argc, char *argv[]) {
 	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
@@ -19,10 +22,12 @@ int main (int argc, char *argv[]) {
 	/*char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
 	strcpy(str3,"./fract_inputs/03input_manysmall.txt");*/
 
-	initStack(8);
+	int nombreDeThread = 4;
+	initStack(8, nombreDeThread);
 	int nbrFile = 2;
 	int err;
-	pthread_t threads[nbrFile];
+	pthread_t threadsP[nbrFile];
+	pthread_t threadsC[nombreDeThread];
 	char *arg [2];
 	arg [0] = str1;
 	arg [1] = str2;
@@ -32,20 +37,40 @@ int main (int argc, char *argv[]) {
 
 	//Création des threads de lecture (Producteurs)
 	for(int i = 0;i<nbrFile ; i++){
-		err = pthread_create(&(threads[i]), NULL, &lecture,arg[i]);
+		err = pthread_create(&(threadsP[i]), NULL, &producteur,arg[i]);
 		if(err != 0)
 			printf("%d \n", err);
 		printf("Création du thread de lecture numéro %d \n", i);
 	}
-	
+
+	for(int i = 0; i<nombreDeThread; i++){
+		err = pthread_create(&(threadsC[i]), NULL, &consommateur,NULL);
+		if(err != 0)
+			printf("%d \n", err);
+		printf("Création du thread de consommation numéro %d \n", i);
+	}
 
 	//Ce block permet d'attendre la fin de la lecture des fichiers
 	for(int i = 0; i<nbrFile ; i++){
-		err = pthread_join(threads[i], NULL);
+		err = pthread_join(threadsP[i], NULL);
 		if(err != 0)
 			printf("%d \n", err);
-		printf("Le thread numéro %d à fini \n", i);
+		printf("Le producteur numéro %d à fini \n", i);
 	}
+
+	//Ouverture du double fond 
+	kill(nombreDeThread);
+
+	//Join consommateur
+	for(int i = 0; i<nombreDeThread ; i++){
+		err = pthread_join(threadsC[i], NULL);
+		if(err != 0)
+			printf("%d \n", err);
+		printf("Le consommateur numéro %d à fini \n", i);
+	}
+
+	write_bitmap_sdl(maxF, fractal_get_name(maxF));
+
 	return EXIT_SUCCESS;
 }
 
@@ -57,7 +82,7 @@ int main (int argc, char *argv[]) {
 
 //Cette fonction prend en argument le nom d'un fihcier, i
 //elle va le lire et rajouter chaque ligne dans le buffer
-void *lecture(void *params){
+void *producteur(void *params){
 	const char *fichier = (char*)params;
 	char line [LENGTH_LINE] = ""; // string servant a acceuillir la ligne lue
     FILE* file = NULL;
@@ -66,7 +91,7 @@ void *lecture(void *params){
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
 			//Lecture de la ligne	
-			push(&head,lineToFractal(line));
+			push(lineToFractal(line));
 		}
 		fclose(file);
 	}
@@ -99,6 +124,22 @@ struct fractal *lineToFractal(char *line){
  *                          		CONSOMMATEUR										 *	
  *																						 *
  * **************************************************************************************/
+
+void *consommateur(void *params){
+	while(true){
+		struct fractal *f= pop();
+		double avg = calculDeFractal(f);
+		//Critique
+		pthread_mutex_lock(&best);
+		if(avg > max){
+			max = avg;
+			maxF = f;
+		}
+		else
+			fractal_free(f);
+		pthread_mutex_unlock(&best);
+	}
+}
 
 //Calcul la fractal et renvoi la moyenne 
 double calculDeFractal(struct fractal *f){

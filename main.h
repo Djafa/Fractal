@@ -1,3 +1,4 @@
 struct fractal *lineToFractal(char *);
-void *lecture(void *);
+void *producteur(void *);
+void *consommateur(void *);
 double calculDeFractal(struct fractal *);

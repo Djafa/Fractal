@@ -6,10 +6,12 @@ typedef struct node {
 	struct fractal *f;
 	struct node *next;
 } node;
-void initStack(int);
+void initStack(int, int);
 
-int push(node **, struct fractal*);
+int push(struct fractal*);
 
-struct fractal *pop(node **list);
+void kill(int);
+
+struct fractal *pop();
 
 #endif
