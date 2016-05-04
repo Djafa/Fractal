@@ -6,6 +6,7 @@ typedef struct node {
 	struct fractal *f;
 	struct node *next;
 } node;
+void initStack(int);
 
 int push(node **, struct fractal*);
 
