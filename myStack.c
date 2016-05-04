@@ -51,7 +51,15 @@ void initStack(int taille, int maxThread){
 	sem_init(&empty, 0, taille);
 	sem_init(&full, 0, 0);
 	for(int i = 0; i<maxThread; i++){
-		push(NULL);
+		node *newNode = (node*)malloc(sizeof(node));
+		if(newNode == NULL)
+			return;
+		newNode->f=NULL;
+		//Critique
+		pthread_mutex_lock(&mutex);
+		newNode->next=head;
+		head=newNode;
+		pthread_mutex_unlock(&mutex);
 	}
 }
 

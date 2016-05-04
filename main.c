@@ -111,10 +111,8 @@ struct fractal *lineToFractal(char *line){
  	int h = atoi(strtok(NULL, delim));
  	double a = atof(strtok(NULL, delim));
  	double b = atof(strtok(NULL, delim));
- 	printf("Création de la fractale");
  	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
- 	printf("on return");
  	return f;
 }
 
@@ -127,9 +125,12 @@ struct fractal *lineToFractal(char *line){
  * **************************************************************************************/
 
 void *consommateur(void *params){
-	while(true){
+	while(1){
+		printf("On pop \n");
 		struct fractal *f= pop();
+		printf("Le nom du pop est %s \n", fractal_get_name(f));
 		double avg = calculDeFractal(f);
+		printf("La moyenne est de %lf \n", avg);
 		//Critique
 		pthread_mutex_lock(&best);
 		if(avg > max){
