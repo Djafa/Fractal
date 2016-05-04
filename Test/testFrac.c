@@ -10,6 +10,7 @@ void getName(void) {
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
 	CU_ASSERT_STRING_EQUAL(fractal_get_name(f), name);
+	fractal_free(f);
 }
 
 void setAndGetValue(void) {
@@ -24,6 +25,7 @@ void setAndGetValue(void) {
 	int value = 42;
 	fractal_set_value(f, x, y, value);
 	CU_ASSERT_EQUAL(fractal_get_value(f, x, y), value);
+	fractal_free(f);
 }
 
 void getWidth(void) {
@@ -34,6 +36,7 @@ void getWidth(void) {
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
 	CU_ASSERT_EQUAL(fractal_get_width(f), width);
+	fractal_free(f);
 }
 
 void getHeight(void) {
@@ -44,6 +47,7 @@ void getHeight(void) {
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
 	CU_ASSERT_EQUAL(fractal_get_height(f), height);
+	fractal_free(f);
 }
 
 void getA(void) {
@@ -54,6 +58,7 @@ void getA(void) {
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
 	CU_ASSERT_DOUBLE_EQUAL(fractal_get_a(f), a, 0);
+	fractal_free(f);
 }
 
 void getB(void) {
@@ -64,6 +69,7 @@ void getB(void) {
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
 	CU_ASSERT_DOUBLE_EQUAL(fractal_get_b(f), b, 0);
+	fractal_free(f);
 }
 
 int main(int argc, const char *argv[]) {
@@ -85,8 +91,8 @@ int main(int argc, const char *argv[]) {
 	   NULL == CU_add_test(pSuite, "GetWidth", getWidth) ||
 	   NULL == CU_add_test(pSuite, "GetHeight", getHeight) ||
 	   NULL == CU_add_test(pSuite, "GetA", getA) ||
-	   NULL == CU_add_test(pSuite, "GetB", getB)
-			) {
+	   NULL == CU_add_test(pSuite, "GetB", getB)) 
+	   {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

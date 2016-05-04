@@ -15,6 +15,7 @@ struct fractal *maxF = NULL;
 pthread_mutex_t best; 
 
 int main (int argc, char *argv[]) {
+	
 	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
 	strcpy(str1,"./fract_inputs/01input_testavg.txt");
 	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
