@@ -29,7 +29,7 @@ int push(node **list, struct fractal *f){
 	*list=newNode;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&full);
-	printf("buffer + 1");
+	printf("buffer + 1 \n");
 	return 0;
 }
 
@@ -43,6 +43,6 @@ struct fractal *pop(node **list){
 	pthread_mutex_unlock(&mutex);
 	sem_post(&empty);
 	free(save);
-	printf("buffer -1");
+	printf("buffer -1 \n");
 	return f;
 }

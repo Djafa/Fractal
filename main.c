@@ -12,13 +12,14 @@
 node *head = NULL;
 
 int main (int argc, char *argv[]) {
-	/*char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
+	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
 	strcpy(str1,"./fract_inputs/01input_testavg.txt");
 	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
 	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
-	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
-	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
+	/*char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
+	strcpy(str3,"./fract_inputs/03input_manysmall.txt");*/
 
+	initStack(8);
 	int nbrFile = 2;
 	int err;
 	pthread_t threads[nbrFile];
@@ -45,16 +46,7 @@ int main (int argc, char *argv[]) {
 			printf("%d \n", err);
 		printf("Le thread numéro %d à fini \n", i);
 	}
-	*/
-	initStack(2);
-	printf("init ok");
-	char valeur [20] = "fract1 800 800 0 0";
-	struct fractal *f = lineToFractal(valeur);
-	push(&head,f);
-	printf("On va push \n");
-	struct fractal *g =  pop(&head);
-	printf("Le nom est : %s \n", fractal_get_name(g));
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
 
 /*****************************************************************************************
@@ -74,6 +66,7 @@ void *lecture(void *params){
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
 			//Lecture de la ligne	
+			push(&head,lineToFractal(line));
 		}
 		fclose(file);
 	}
@@ -81,58 +74,22 @@ void *lecture(void *params){
 	pthread_exit(NULL);
 }
 
-struct fractal *lineToFractal(char str []){
+struct fractal *lineToFractal(char line *){
 	const char *delim = " ";
-	char* name = strtok(str, delim);
-	if (name == NULL) { //Il n'y a pas de nom
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-
-	char* token = strtok(NULL, delim);
-	if (token == NULL) { //Il n'y a pas de longueur
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-	int width = atoi(token);
-	if (width <= 0) { //la longueur est invalide
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-
-	token = strtok(NULL, delim);
-	if (token == NULL) { //Il n'y a pas de hauteur
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-	int height = atoi(token);
-	if (height <= 0) { //la hauteur est invalide
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-
-	token = strtok(NULL, delim);
-	if (token == NULL) { //Il n'y a pas de valeur a
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-	double a = strtod(token, NULL);
-	if (a > 1.0 || a < -1.0) { //a n'est pas dans les bonnes bornes
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-
-	token = strtok(NULL, delim);
-	if (token == NULL) { //Il n'y a pas de valeur b
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-	double b = strtod(token, NULL);
-	if (b > 1.0 || b <- 1.0) { //b n'est pas dans les bonnes bornes
-		fprintf(stderr, "Erreur, la fractale : %s n'est pas formatée correctement. Elle a été ignorée", str);
-		return NULL;
-	}
-	return fractal_new(name, width,height,a,b);
+ 	char *token = strtok(line, delim);
+ 	if(token == NULL)
+ 		return NULL;
+ 	char *name  = (char *)malloc(sizeof(char)*(strlen(token)+1));
+ 	strcpy(name, token);
+ 	int w = atoi(strtok(NULL, delim));
+ 	int h = atoi(strtok(NULL, delim));
+ 	double a = atof(strtok(NULL, delim));
+ 	double b = atof(strtok(NULL, delim));
+ 	printf("Création de la fractale");
+ 	struct fractal *f =fractal_new(name, w, h, a, b);
+  	free(name);
+ 	printf("on return");
+ 	return f;
 }
 
 
