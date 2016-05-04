@@ -14,4 +14,3 @@ $(LIBFILE): $(OBJ)
 *.o:
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
-.SILENT:

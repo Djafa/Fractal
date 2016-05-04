@@ -1,18 +1,25 @@
-main: main.o libfractal/fractal.o
-	make lib
-	gcc -Wall -o main main.o libfractal/fractal.o libfractal/tools.o -lSDL -lpthread
+all: main
+
+main: main.o myStack.o
+	cd libfractal && make
+	gcc -Wall -o main main.o myStack.o libfractal/libfractal.a -lSDL -lpthread
 	make clean
 
-main.o: main.c libfractal/fractal.h
+main.o: main.c
 	gcc -Wall -c main.c -lpthread
-
-clean:
-	rm -rf *.o libfractal/*.o libfractal/*.a
+	
+myStack.o: myStack.c
+	gcc -Wall -c myStack.c -lpthread
 	
 test:
 	cd Test && make
+	make clean
 	
 lib:
-	@cd libfractal && make
+	cd libfractal && make
+	make clean
+	
+clean:
+	rm -rf *.o libfractal/*.o libfractal/*.a Test/*.o
 	
 .SILENT:
