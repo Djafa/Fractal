@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "./libfractal/fractal.h"
 #include "myStack.h"
 #include <semaphore.h>
@@ -28,6 +29,7 @@ int push(node **list, struct fractal *f){
 	*list=newNode;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&full);
+	printf("buffer + 1");
 	return 0;
 }
 
@@ -41,5 +43,6 @@ struct fractal *pop(node **list){
 	pthread_mutex_unlock(&mutex);
 	sem_post(&empty);
 	free(save);
+	printf("buffer -1");
 	return f;
 }

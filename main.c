@@ -3,32 +3,11 @@
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
-#include "mystack.h"
+#include "myStack.h"
 #include "./libfractal/fractal.h"
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 
-//Cette fonction prend en argument le nom d'un fihcier, i
-//elle va le lire et rajouter chaque ligne dans le buffer
-void *lecture(void *params){
-	const char *fichier = (char*)params;
-	char line [LENGTH_LINE] = ""; // string servant a acceuillir la ligne lue
-    FILE* file = NULL;
-    file = fopen(fichier, "r");
-    
-    if (file != NULL) {
-		while (fgets(line, LENGTH_LINE, file) != NULL) {
-			char *token = strtok(line, " ");
-			while( token != NULL){
-				printf( " %s\n", token );
-				token = strtok(NULL," ");
-			}
-		}
-		fclose(file);
-	}
-	free(params);
-	pthread_exit(NULL);
-}
 
 int main (int argc, char *argv[]) {
 	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
@@ -64,20 +43,71 @@ int main (int argc, char *argv[]) {
 			printf("%d \n", err);
 		printf("Le thread numéro %d à fini \n", i);
 	}
-
-	//Test des calculs
-	const char *name = "projet1";
-	struct fractal *f = fractal_new(name, 800, 800, 0.5, 0.5);
-		//Calcule de chaque pixel
-	
-	//On écrit la fractale
-	write_bitmap_sdl(f, fractal_get_name(f));
     return EXIT_SUCCESS;
 }
 
 /*****************************************************************************************
  *																						 *
  *                          		PRODUCTEUR											 *	
+ *																						 *
+ * **************************************************************************************/
+
+//Cette fonction prend en argument le nom d'un fihcier, i
+//elle va le lire et rajouter chaque ligne dans le buffer
+void *lecture(void *params){
+	const char *fichier = (char*)params;
+	char line [LENGTH_LINE] = ""; // string servant a acceuillir la ligne lue
+    FILE* file = NULL;
+    file = fopen(fichier, "r");
+    
+    if (file != NULL) {
+		while (fgets(line, LENGTH_LINE, file) != NULL) {
+			//Lecture de la ligne	
+		}
+		fclose(file);
+	}
+	free(params);
+	pthread_exit(NULL);
+}
+
+struct fractal *lineToFractal(char line){
+	char *token = strtok(line, " ");
+	int count = 1;
+	//Valeur à mettre dans la structure
+	char *name;
+	int w;
+	int h;
+	double a;
+	double b;
+	while( token != NULL){
+		printf( " %s\n", token );
+		if(count == 1){
+			name = (char *)malloc(sizeof(char)*(strlen(token)+1));
+			if(name == NULL)
+				return NULL;
+			strcpy(name,token);
+		}
+		else if (count == 2)
+			w = atoi(token);
+		else if (count == 3)
+			h = atoi(token);
+		else if (count == 4)
+			a = atof(token);
+		else if(count == 5)
+			b = atof(token);
+		count ++;
+		token = strtok(NULL," ");
+	}
+	struct fractal *f =fractal_new(name, w, h, a, b);
+	free(name);
+	return f;
+}
+
+
+
+/*****************************************************************************************
+ *																						 *
+ *                          		CONSOMMATEUR										 *	
  *																						 *
  * **************************************************************************************/
 

@@ -3,12 +3,12 @@
 
 //Structure de la liste
 typedef struct node {
-	fractal *f;
+	struct fractal *f;
 	struct node *next;
 } node;
 
-int push(node **, fractal*);
+int push(node **, struct fractal*);
 
-fractal *pop(node **list);
+struct fractal *pop(node **list);
 
 #endif
