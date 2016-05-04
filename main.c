@@ -70,6 +70,7 @@ int main (int argc, char *argv[]) {
 		printf("Le consommateur numéro %d à fini \n", i);
 	}
 
+	printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
 	write_bitmap_sdl(maxF, fractal_get_name(maxF));
 
 	return EXIT_SUCCESS;
@@ -126,11 +127,8 @@ struct fractal *lineToFractal(char *line){
 
 void *consommateur(void *params){
 	while(1){
-		printf("On pop \n");
 		struct fractal *f= pop();
-		printf("Le nom du pop est %s \n", fractal_get_name(f));
 		double avg = calculDeFractal(f);
-		printf("La moyenne est de %lf \n", avg);
 		//Critique
 		pthread_mutex_lock(&best);
 		if(avg > max){

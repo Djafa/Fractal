@@ -24,7 +24,6 @@ int push(struct fractal *f){
 	head=newNode;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&full);
-	printf("buffer + 1 \n");
 	return 0;
 }
 
@@ -41,7 +40,6 @@ struct fractal *pop(){
 	if(f == NULL)
 		pthread_exit(NULL);
 	free(save);
-	printf("buffer -1 \n");
 	return f;
 }
 
