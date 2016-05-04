@@ -8,12 +8,6 @@
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 
-typedef struct Node {
-	struct frac *f;
-	node next;
-} node;
-
-
 //Cette fonction prend en argument le nom d'un fihcier, i
 //elle va le lire et rajouter chaque ligne dans le buffer
 void *lecture(void *params){
@@ -24,7 +18,6 @@ void *lecture(void *params){
     
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
-			printf("%s", line);
 			char *token = strtok(line, " ");
 			while( token != NULL){
 				printf( " %s\n", token );
@@ -89,7 +82,7 @@ int main (int argc, char *argv[]) {
  * **************************************************************************************/
 
 //Calcul la fractal et renvoi la moyenne 
-double calculDeFractal(fractal *f){
+double calculDeFractal(struct fractal *f){
 	double avg = 0;
 	int w = fractal_get_width(f);
 	int h = fractal_get_height(f);
