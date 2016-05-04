@@ -74,7 +74,7 @@ void *lecture(void *params){
 	pthread_exit(NULL);
 }
 
-struct fractal *lineToFractal(char line *){
+struct fractal *lineToFractal(char *line){
 	const char *delim = " ";
  	char *token = strtok(line, delim);
  	if(token == NULL)
