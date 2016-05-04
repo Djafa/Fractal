@@ -4,18 +4,19 @@
 #include <string.h>
 #include <pthread.h>
 #include "myStack.h"
+#include "main.h"
 #include "./libfractal/fractal.h"
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 
 
 int main (int argc, char *argv[]) {
-	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
+	/*char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
 	strcpy(str1,"./fract_inputs/01input_testavg.txt");
 	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
 	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
-	/*char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
-	strcpy(str3,"./fract_inputs/03input_manysmall.txt");*/
+	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
+	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
 
 	int nbrFile = 2;
 	int err;
@@ -43,6 +44,10 @@ int main (int argc, char *argv[]) {
 			printf("%d \n", err);
 		printf("Le thread numéro %d à fini \n", i);
 	}
+	*/
+	char valeur [] = "fract1 800 800 0 0";
+	struct fractal *f = lineToFractal(valeur);
+	printf("Le nom de la factal est : %s", fractal_get_name(f));
     return EXIT_SUCCESS;
 }
 
@@ -70,7 +75,7 @@ void *lecture(void *params){
 	pthread_exit(NULL);
 }
 
-struct fractal *lineToFractal(char line){
+struct fractal *lineToFractal(char line []){
 	char *token = strtok(line, " ");
 	int count = 1;
 	//Valeur à mettre dans la structure
