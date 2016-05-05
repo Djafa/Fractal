@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
-#include "myStack.h"
+#include "./stack/myStack.h"
 #include "main.h"
 #include "./libfractal/fractal.h"
 
@@ -77,6 +77,7 @@ int main (int argc, char *argv[]) {
 	printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
 	write_bitmap_sdl(maxF, fractal_get_name(maxF));
 
+	pthread_mutex_destroy(&best);
 	return EXIT_SUCCESS;
 }
 
