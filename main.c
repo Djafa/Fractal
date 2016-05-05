@@ -10,8 +10,8 @@
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 
 //Variable de classe
-double max = 0;
-struct fractal *maxF = NULL;
+double max = 0; //Contient la meilleur moyenne
+struct fractal *maxF = NULL; //Contient la fractal qui possède la meilleur moyenne 
 pthread_mutex_t best; 
 
 int main (int argc, char *argv[]) {
@@ -20,19 +20,19 @@ int main (int argc, char *argv[]) {
 	strcpy(str1,"./fract_inputs/01input_testavg.txt");
 	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
 	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
-	/*char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
-	strcpy(str3,"./fract_inputs/03input_manysmall.txt");*/
+	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
+	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
 
-	int nombreDeThread = 4;
+	const int nombreDeThread = 4;
 	initStack(8, nombreDeThread);
-	int nbrFile = 2;
+	int nbrFile = 3;
 	int err;
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
-	char *arg [2];
+	char *arg [nbrFile];
 	arg [0] = str1;
 	arg [1] = str2;
-	//arg [2] = str3;
+	arg [2] = str3;
 
 	printf("Il y a %d threads \n", nbrFile);
 
@@ -44,6 +44,7 @@ int main (int argc, char *argv[]) {
 		printf("Création du thread de lecture numéro %d \n", i);
 	}
 
+	//Création des threads de calcul
 	for(int i = 0; i<nombreDeThread; i++){
 		err = pthread_create(&(threadsC[i]), NULL, &consommateur,NULL);
 		if(err != 0)
@@ -69,6 +70,11 @@ int main (int argc, char *argv[]) {
 			printf("%d \n", err);
 		printf("Le consommateur numéro %d à fini \n", i);
 	}
+
+	//Destruction
+	pthread_mutex_destroy(&mutex);
+	sem_destroy(&empty);
+	sem_destroy(&full);
 
 	printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
 	write_bitmap_sdl(maxF, fractal_get_name(maxF));
@@ -132,6 +138,7 @@ void *consommateur(void *params){
 		//Critique
 		pthread_mutex_lock(&best);
 		if(avg > max){
+			free(max);
 			max = avg;
 			maxF = f;
 		}
