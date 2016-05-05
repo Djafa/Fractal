@@ -30,7 +30,7 @@ int main (int argc, char *argv[]) {
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
 	char *arg [nbrFile];
-	arg [0] = str1;
+	arg [0	] = str1;
 	arg [1] = str2;
 	arg [2] = str3;
 
@@ -96,7 +96,7 @@ int main (int argc, char *argv[]) {
 //elle va le lire et rajouter chaque ligne dans le buffer
 void *producteur(void *params){
 	const char *fichier = (char*)params;
-	char line [LENGTH_LINE] = ""; // string servant a acceuillir la ligne lue
+	char *line = (char *)malloc(sizeof(char)*LENGTH_LINE); // string servant a acceuillir la ligne lue
     FILE* file = NULL;
     file = fopen(fichier, "r");
     
@@ -107,6 +107,7 @@ void *producteur(void *params){
 		}
 		fclose(file);
 	}
+	free(line);
 	free(params);
 	pthread_exit(NULL);
 }
