@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <CUnit/Basic.h>
 #include "../libfractal/fractal.h"
+#include "../main.h"
+#include "../stack/myStack.h"
+
 void getName(void) {
 	const char *name = "projet";
 	int width = 4;
@@ -72,6 +75,19 @@ void getB(void) {
 	fractal_free(f);
 }
 
+void calculFractal(void) {
+	const char *name = "projet";
+	int width = 4;
+	int height = 2;
+	double a = 0.5;
+	double b = 0.4;
+	struct fractal *f = fractal_new(name, width, height, a, b);
+	CU_ASSERT_DOUBLE_EQUAL(calculDeFractal(f), 2.0, 0);
+	fractal_free(f);
+}
+
+
+
 int main(int argc, const char *argv[]) {
 	CU_pSuite pSuite = NULL;
 	/* initialisation de la suite*/
@@ -91,7 +107,8 @@ int main(int argc, const char *argv[]) {
 	   NULL == CU_add_test(pSuite, "GetWidth", getWidth) ||
 	   NULL == CU_add_test(pSuite, "GetHeight", getHeight) ||
 	   NULL == CU_add_test(pSuite, "GetA", getA) ||
-	   NULL == CU_add_test(pSuite, "GetB", getB)) 
+	   NULL == CU_add_test(pSuite, "GetB", getB) ||
+	   NULL == CU_add_test(pSuite, "calculFractal", calculFractal))
 	   {
 		CU_cleanup_registry();
 		return CU_get_error();
