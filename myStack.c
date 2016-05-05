@@ -14,8 +14,10 @@ node *head = NULL;
 //Permet d'ajouter une fractal dans la liste
 int push(struct fractal *f){
 	node *newNode = (node*)malloc(sizeof(node));
-	if(newNode == NULL)
+	if(newNode == NULL){
+		printf("Erreur lors de malloc dans push");
 		return -1;
+	}
 	newNode->f=f;
 	//Critique
 	sem_wait(&empty);
@@ -37,8 +39,10 @@ struct fractal *pop(){
 	pthread_mutex_unlock(&mutex);
 	sem_post(&empty);
 	//Kill thread
-	if(f == NULL)
+	if(f == NULL){
+		printf("THREAD EXIT \n");
 		pthread_exit(NULL);
+	}
 	free(save);
 	return f;
 }
@@ -50,8 +54,10 @@ void initStack(int taille, int maxThread){
 	sem_init(&full, 0, 0);
 	for(int i = 0; i<maxThread; i++){
 		node *newNode = (node*)malloc(sizeof(node));
-		if(newNode == NULL)
+		if(newNode == NULL){
+			printf("Erreur lors de malloc dans l'Initialisation");
 			return;
+		}
 		newNode->f=NULL;
 		//Critique
 		pthread_mutex_lock(&mutex);

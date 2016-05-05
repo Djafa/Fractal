@@ -34,7 +34,8 @@ int main (int argc, char *argv[]) {
 	arg [1] = str2;
 	arg [2] = str3;
 
-	printf("Il y a %d threads \n", nbrFile);
+	printf("Il y a %d threads de calcul \n", nombreDeThread);
+	printf("Il y a %d fichiers \n", nbrFile);
 
 	//Création des threads de lecture (Producteurs)
 	for(int i = 0;i<nbrFile ; i++){
@@ -117,6 +118,7 @@ struct fractal *lineToFractal(char *line){
  	double b = atof(strtok(NULL, delim));
  	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
+  	free(line);
  	return f;
 }
 
@@ -135,6 +137,7 @@ void *consommateur(void *params){
 		//Critique
 		pthread_mutex_lock(&best);
 		if(avg > max){
+			printf("Nouveau maximum avec %lf ! \n", avg);
 			free(maxF);
 			max = avg;
 			maxF = f;
