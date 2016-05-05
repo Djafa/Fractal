@@ -16,23 +16,23 @@ pthread_mutex_t best;
 
 int main (int argc, char *argv[]) {
 	
-	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
+	/*char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
 	strcpy(str1,"./fract_inputs/01input_testavg.txt");
 	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
-	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
+	strcpy(str2,"./fract_inputs/02input_fewbig.txt");*/
 	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
 	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
 
 	const int nombreDeThread = 4;
-	initStack(8, nombreDeThread);
-	int nbrFile = 3;
+	initStack(40, nombreDeThread);
+	int nbrFile = 1;
 	int err;
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
 	char *arg [nbrFile];
-	arg [0] = str1;
+	arg [0] = str3;/*
 	arg [1] = str2;
-	arg [2] = str3;
+	arg [2] = str3;*/
 
 	printf("Il y a %d threads de calcul \n", nombreDeThread);
 	printf("Il y a %d fichiers \n", nbrFile);
@@ -118,7 +118,6 @@ struct fractal *lineToFractal(char *line){
  	double b = atof(strtok(NULL, delim));
  	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
-  	free(line);
  	return f;
 }
 

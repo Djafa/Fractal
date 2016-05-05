@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "fractal.h"
 
@@ -17,9 +18,11 @@ struct fractal *fractal_new(const char *name, int width, int height, double a, d
 	f->height = height;
 	f->a = a;
 	f->b = b;
-	f->pixl = (int*)malloc(sizeof(int)*((width*height)-1));
-	if(f->pixl == NULL)
+	f->pixl = (int*)malloc(sizeof(int)*((width*height)));
+	if(f->pixl == NULL){
+		printf("================================================================================");
 		return NULL;
+	}	
     return f;
 }
 
