@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
-#include "myStack.h"
+#include "./stack/myStack.h"
 #include "main.h"
 #include "./libfractal/fractal.h"
 
