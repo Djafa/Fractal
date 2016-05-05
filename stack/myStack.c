@@ -13,7 +13,6 @@ node *head = NULL;
 
 //Permet d'ajouter une fractal dans la liste
 int push(struct fractal *f){
-	printf("push \n");
 	node *newNode = (node*)malloc(sizeof(node));
 	if(newNode == NULL){
 		printf("Erreur lors de malloc dans push");
@@ -27,13 +26,11 @@ int push(struct fractal *f){
 	head=newNode;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&full);
-	printf("pust post \n");
 	return 0;
 }
 
 //Retire une fractal de la liste pointée
 struct fractal *pop(){
-	printf("pop \n");
 	sem_wait(&full);
 	pthread_mutex_lock(&mutex);
 	struct fractal *f = head->f;
@@ -47,7 +44,6 @@ struct fractal *pop(){
 		pthread_exit(NULL);
 	}
 	free(save);
-	printf("pop post \n");
 	return f;
 }
 
@@ -68,7 +64,6 @@ void initStack(int taille, int maxThread){
 		newNode->next=head;
 		head=newNode;
 		pthread_mutex_unlock(&mutex);
-		printf("Création d'un node tueur ok ! \n");
 	}
 }
 
