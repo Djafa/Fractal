@@ -67,3 +67,9 @@ void kill(int maxThread){
 		sem_post(&full);
 	}
 }
+
+void destroy(){
+	pthread_mutex_destroy(&mutex);
+	sem_destroy(&empty);
+	sem_destroy(&full);
+}

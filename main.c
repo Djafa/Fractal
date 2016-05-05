@@ -72,9 +72,6 @@ int main (int argc, char *argv[]) {
 	}
 
 	//Destruction
-	pthread_mutex_destroy(&mutex);
-	sem_destroy(&empty);
-	sem_destroy(&full);
 
 	printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
 	write_bitmap_sdl(maxF, fractal_get_name(maxF));
@@ -138,7 +135,7 @@ void *consommateur(void *params){
 		//Critique
 		pthread_mutex_lock(&best);
 		if(avg > max){
-			free(max);
+			free(maxF);
 			max = avg;
 			maxF = f;
 		}
