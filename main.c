@@ -16,23 +16,23 @@ pthread_mutex_t best;
 
 int main (int argc, char *argv[]) {
 	
-	/*char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
+	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
 	strcpy(str1,"./fract_inputs/01input_testavg.txt");
 	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
-	strcpy(str2,"./fract_inputs/02input_fewbig.txt");*/
+	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
 	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
 	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
 
 	const int nombreDeThread = 4;
 	initStack(40, nombreDeThread);
-	int nbrFile = 1;
+	int nbrFile = 3;
 	int err;
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
 	char *arg [nbrFile];
-	arg [0] = str3;/*
+	arg [0] = str1;
 	arg [1] = str2;
-	arg [2] = str3;*/
+	arg [2] = str3;
 
 	printf("Il y a %d threads de calcul \n", nombreDeThread);
 	printf("Il y a %d fichiers \n", nbrFile);
@@ -61,6 +61,10 @@ int main (int argc, char *argv[]) {
 		printf("Le producteur numéro %d à fini \n", i);
 	}
 
+	free(str1);
+	free(str2);
+	free(str3);
+
 	//Ouverture du double fond 
 	kill(nombreDeThread);
 
@@ -78,6 +82,7 @@ int main (int argc, char *argv[]) {
 	write_bitmap_sdl(maxF, fractal_get_name(maxF));
 
 	pthread_mutex_destroy(&best);
+	fractal_free(maxF);
 	return EXIT_SUCCESS;
 }
 

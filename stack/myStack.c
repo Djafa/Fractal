@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "./libfractal/fractal.h"
+#include "../libfractal/fractal.h"
 #include "myStack.h"
 #include <semaphore.h>
 #include <pthread.h>
