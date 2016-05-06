@@ -11,10 +11,11 @@ main.o: main.c
 myStack.o: stack/myStack.c
 	gcc -Wall -g -c stack/myStack.c -lpthread
 	
-prodAndCons.o: prodAndCons.c
-	gcc -Wall -g -c prodAndCons.c -lpthread
+prodAndCons.o: prodAndCons/prodAndCons.c
+	gcc -Wall -g -c prodAndCons/prodAndCons.c -lpthread
 	
 test:
+	cd libfractal && make
 	cd Test && make
 	make clean
 	
@@ -23,6 +24,6 @@ lib:
 	make clean
 	
 clean:
-	rm -rf *.o libfractal/*.o libfractal/*.a Test/*.o stack/*.o
+	rm -rf *.o libfractal/*.o libfractal/*.a Test/*.o stack/*.o prodAndCons/*.o
 	
 .SILENT:

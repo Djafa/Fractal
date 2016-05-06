@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <CUnit/Basic.h>
 #include "../libfractal/fractal.h"
-#include "../main.h"
 #include "../stack/myStack.h"
+#include "../prodAndCons/prodAndCons.h"
 
-void getName(void) {
+void getName(void) { //test servant a verifier le nom de la fractal
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
@@ -16,7 +16,7 @@ void getName(void) {
 	fractal_free(f);
 }
 
-void setAndGetValue(void) {
+void setAndGetValue(void) { //test servant a verifier la valeur de la fractal
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
@@ -31,7 +31,7 @@ void setAndGetValue(void) {
 	fractal_free(f);
 }
 
-void getWidth(void) {
+void getWidth(void) { //test servant a verifier la hauteur de la fractal
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
@@ -42,7 +42,7 @@ void getWidth(void) {
 	fractal_free(f);
 }
 
-void getHeight(void) {
+void getHeight(void) { //test servant a verifier la largeur de la fractal
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
@@ -53,7 +53,7 @@ void getHeight(void) {
 	fractal_free(f);
 }
 
-void getA(void) {
+void getA(void) { //test servant a verifier le parametre a de la fractal
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
@@ -64,7 +64,7 @@ void getA(void) {
 	fractal_free(f);
 }
 
-void getB(void) {
+void getB(void) { //test servant a verifier le parametre b de la fractal
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
@@ -75,18 +75,32 @@ void getB(void) {
 	fractal_free(f);
 }
 
-void calculFractal(void) {
+void calculFractal(void) { //test servant a verifier si la methode calculFractal retourne le bon resultat
 	const char *name = "projet";
 	int width = 4;
 	int height = 2;
 	double a = 0.5;
 	double b = 0.4;
 	struct fractal *f = fractal_new(name, width, height, a, b);
-	CU_ASSERT_DOUBLE_EQUAL(calculDeFractal(f), 2.0, 0);
+	CU_ASSERT_DOUBLE_EQUAL(calculDeFractal(f), 2, 0);
 	fractal_free(f);
 }
 
-
+void lineFractal(void) { //test servant a verifier si la methode lineToFractal retourne bien la bonne fractale
+	const char *name = "projet";
+	int width = 4;
+	int height = 2;
+	double a = 0.5;
+	double b = 0.4;
+	char *line = "projet 4 2 0.5 0.4";
+	struct fractal *f = lineToFractal(line);
+	CU_ASSERT_STRING_EQUAL(fractal_get_name(f), name);
+	CU_ASSERT_EQUAL(fractal_get_width(f), width);
+	CU_ASSERT_EQUAL(fractal_get_height(f), height);
+	CU_ASSERT_DOUBLE_EQUAL(fractal_get_a(f), a, 0);
+	CU_ASSERT_DOUBLE_EQUAL(fractal_get_b(f), b, 0);
+	fractal_free(f);
+}
 
 int main(int argc, const char *argv[]) {
 	CU_pSuite pSuite = NULL;
@@ -108,7 +122,8 @@ int main(int argc, const char *argv[]) {
 	   NULL == CU_add_test(pSuite, "GetHeight", getHeight) ||
 	   NULL == CU_add_test(pSuite, "GetA", getA) ||
 	   NULL == CU_add_test(pSuite, "GetB", getB) ||
-	   NULL == CU_add_test(pSuite, "calculFractal", calculFractal))
+	   NULL == CU_add_test(pSuite, "calculFractal", calculFractal) ||
+	   NULL == CU_add_test(pSuite, "lineFractal", lineFractal))
 	   {
 		CU_cleanup_registry();
 		return CU_get_error();

@@ -6,7 +6,7 @@
 #include "./libfractal/fractal.h"
 #include "./stack/myStack.h"
 #include "main.h"
-#include "prodAndCons.h"
+#include "prodAndCons/prodAndCons.h"
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
 #define BUFFER 20
@@ -14,6 +14,19 @@
 
 
 int main (int argc, const char *argv[]) {
+	const char *name = "projet";
+	int width = 10;
+	int height = 20;
+	double a = 4.5;
+	double b = 6.4;
+	struct fractal *f = fractal_new(name, width, height, a, b);
+	double c = calculDeFractal(f);
+	printf("%fl",c);
+	
+	
+	
+	
+	
 	int nombreDeThread = 4;
 	int size1 = strlen("./fract_inputs/01input_testavg.txt")+1;
 	char *str1 = (char *)malloc(sizeof(char)*(size1));
