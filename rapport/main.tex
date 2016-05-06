@@ -17,17 +17,19 @@
 L'implémentation de notre programme se découpe en plusieurs parties, la première est la lecture de la ligne de commande qui est passée au programme, la création des fractals, ensuite vient l'étape de traitement des fractals.
 \\
 \\
-La lecture de la ligne de commande peut se passer de différentes façons. Quand on donne comme ligne de commande les arguments d'une fractal, le programme la calcule directement.
+Le programme va calculer les fichiers en entrée, si l'option -d est activée, il est possible d'entrer directement les fractales.
 \\
 \\
-Si se sont des fichiers qui sont lu, un thread est lancé pour chaque fichiers à lire, ce threads lit chaque ligne une à une et retourne la fractal correspondante. Pour se faire, nous avons utiliser la fonction fopen et non la fonction open du cours. fopen nous semblait bien plus facile à utiliser car celle-ci permet de récupérer une ligne directement depuis le fichier, alors que open, récupère un caractère à la fois ou un groupe de caractère dont nous devons définir la taille à l'avance.
+Si se sont des fichiers qui sont lu, un thread est lancé pour chaque fichiers à lire, ce thread lit chaque ligne une à une et retourne la fractal correspondante. Pour se faire, nous avons utiliser la fonction fopen et non la fonction open du cours. fopen nous semblait bien plus facile à utiliser car celle-ci permet de récupérer une ligne directement depuis le fichier, alors que open, récupère un caractère à la fois ou un groupe de caractère dont nous devons définir la taille à l'avance.
 \\
 \\
 Lors de chaque lecture d'une ligne, nous apellons la méthode lineToFractal sur la fractal lue et ensuite, nous utilisons la fonction push dessus afin de la mettre dans la pile.
 \\
 \\
-Partie de Julian sur la pile et le fonctionnement des threads de calculs
+D'un autre coté, nous avons des threads de calculs qui vont calculer les fractales et retenir ne que celle avec la plus haute moyenne. 
 \\
+\\
+Pour arrêter les threads de calcul, nous avons caché des noeuds killeurs au fond de la stack, lorsque les threads de lecture ont fini, on augmente la sémaphore pour permettre à ceux de calculs de charger ces noeuds et donc d'appeler "pthread\_exit(NULL)";
 
 
 
@@ -59,7 +61,6 @@ Ensuite viennent encore d'autres tests, vérifiant à chaque fois si les méthod
 L'élaboration de ce projet fut plus compliqué que celle du premier projet, MyMalloc. Nous avons particulièrement eu du mal au début pour avoir une idée précise du déroulement de l'algorithme. La gestion des thraeds nous paraissait délicate à manier. 
 \\
 \\
-Un autre soucis fut de régler un problème de fuite de mémoire avec notre implémentation, vu que nous n'utilisons pas de mutex pour gérer nos thraeds, nous avons eu des soucis sur des ordinateurs plus puissant. Sur des ordinateurs plus lent, nous n'avons pas de segmentation fault mais sur des ordis bien plus puissant, il nous arrivait souvent des erreurs de segmentations faults même si l'algorithme fonctionnait bien à certains moments.
 
 \section{Conclusion}
 En conclusion, l'élaboration de ce projet fût particulièrement intéressante. D'un niveau plus élever que MyMalloc, nous avons du apprendre à maitriser des concepts plus poussé en C tels que les threads en faisant attention à ce que des données ne se marchent pas dessus ou encore gérer la redirection de la sortie standard.

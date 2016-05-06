@@ -5,6 +5,7 @@
 #include "../libfractal/fractal.h"
 #include "../stack/myStack.h"
 #include "prodAndCons.h"
+#include "../main.h"
 
 #define LENGTH_LINE 1000
 
@@ -74,16 +75,26 @@ void *consommateur(void *params){
 		struct fractal *f= pop();
 		double current_avg = calculDeFractal(f);
 		//Critique
-		pthread_mutex_lock(&best);
-		if(current_avg > max_avg){
-			printf("Nouveau maximum avec %lf ! \n", current_avg);
-			free(maxF);
-			max_avg = current_avg;
-			maxF = f;
+		if(genAll == 0){
+			pthread_mutex_lock(&best);
+			if(current_avg > max_avg){
+				printf("Nouveau maximum avec %lf ! \n", current_avg);
+				free(maxF);
+				max_avg = current_avg;
+				maxF = f;
+			}
+			else
+				fractal_free(f);
+			pthread_mutex_unlock(&best);
 		}
-		else
-			fractal_free(f);
-		pthread_mutex_unlock(&best);
+		else {
+			int sizeOfResult = 65;
+			char *result = (char*)malloc(sizeof(char)*(sizeOfResult+4));
+			strncpy(result,fractal_get_name(f),65);
+			write_bitmap_sdl(maxF, strcat(result,".bmp"));
+			free(result);
+		}
+
 	}
 }
 

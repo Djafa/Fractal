@@ -30,11 +30,11 @@ int main (int argc, const char *argv[]) {
 		genAll = 0;
 
 	//Configuration du nombre de threads
-	if(argc > 2 && strcmp(argv[1],"--maxthreads") == 0){
+	if(argc > 2 && strcmp(argv[1],"--maxthreads") == 0 && atoi(argv[2])>1){
 		nombreDeThread = atoi(argv[2]);
 		start += 2;
 	}
-	else if(argc > 3 && strcmp(argv[2],"--maxthreads") == 0){
+	else if(argc > 3 && strcmp(argv[2],"--maxthreads") == 0 && atoi(argv[3])>1){
 		nombreDeThread = atoi(argv[3]);
 		start += 2;
 	}
@@ -111,11 +111,14 @@ int main (int argc, const char *argv[]) {
 	}
 
 	//Destruction
-	printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
-	int sizeOfResult = strlen(argv[argc-1]);
-	char *result = (char*)malloc(sizeof(char)*(sizeOfResult+5));
-	strncpy(result,argv[argc-1],sizeOfResult+1);
-	write_bitmap_sdl(maxF, strcat(result, ".bmp"));
+	if(genAll == 0){
+		printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
+		int sizeOfResult = strlen(argv[argc-1]);
+		char *result = (char*)malloc(sizeof(char)*(sizeOfResult+5));
+		strncpy(result,argv[argc-1],sizeOfResult+1);
+		write_bitmap_sdl(maxF, strcat(result, ".bmp"));
+		free(result);
+	}
 	destroy();
 	pthread_mutex_destroy(&best);
 	fractal_free(maxF);

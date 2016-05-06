@@ -4,6 +4,6 @@
 #define LENGTH_LINE 1000
 #define BUFFER 20
 
-
+extern int genAll;
 
 #endif
