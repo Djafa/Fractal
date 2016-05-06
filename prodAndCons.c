@@ -6,9 +6,12 @@
 #include "./stack/myStack.h"
 #include "prodAndCons.h"
 
+#define LENGTH_LINE 1000
 
 //Variable de classe
 static double max_avg = 0; //Contient la meilleur moyenne
+struct fractal *maxF = NULL;
+pthread_mutex_t best;
 
 /*****************************************************************************************
  *																						 *
@@ -68,7 +71,7 @@ void *consommateur(void *params){
 		//Critique
 		pthread_mutex_lock(&best);
 		if(current_avg > max_avg){
-			printf("Nouveau maximum avec %lf ! \n", avg);
+			printf("Nouveau maximum avec %lf ! \n", current_avg);
 			free(maxF);
 			max_avg = current_avg;
 			maxF = f;
