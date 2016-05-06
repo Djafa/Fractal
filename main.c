@@ -17,11 +17,11 @@ int main (int argc, const char *argv[]) {
 	int consoleInput = 0; 
 
 	//Configuration de la génération
-	if(argc > 2 && strmcp(argv[1],'-d') == 0){
+	if(argc > 2 && strcmp(argv[1],'-d') == 0){
 		genAll = 1;
 		start++;
 	}
-	else if(argc > 3 && strmcp(argv[2],'-d')){
+	else if(argc > 3 && strcmp(argv[2],'-d')){
 		genAll = 1;
 		start++;
 	}
@@ -29,11 +29,11 @@ int main (int argc, const char *argv[]) {
 		genAll = 0;
 
 	//Configuration du nombre de threads
-	if(argc > 2 && strmcp(argv[1],'--maxthreads') == 0){
+	if(argc > 2 && strcmp(argv[1],'--maxthreads') == 0){
 		nombreDeThread = atoi(argv[2]);
 		start += 2;
 	}
-	else if(argc > 3 && strmcp(argv[2],'--maxthreads') == 0){
+	else if(argc > 3 && strcmp(argv[2],'--maxthreads') == 0){
 		nombreDeThread = atoi(argv[3]);
 		start += 2;
 	}
@@ -42,14 +42,14 @@ int main (int argc, const char *argv[]) {
 
 	//On check si il y a un - en argument
 	for(int i = start; i<argc-1; i++){
-		if(strmcp(argv[i],'-') == 0)
+		if(strcmp(argv[i],'-') == 0)
 			consoleInput = 1;
 	}
 
 	int nombreDeFichier = argv - 2 - start - consoleInput;
 	char *tab[nombreDeFichier];
 	for(int i = start, int j = 0; j<nombreDeFichier; i++, j++){
-		if(strmcp(argv[i],'-') == 0)
+		if(strcmp(argv[i],'-') == 0)
 			i++;
 		int size = strlen(argv[i])+1;
 		tab[j] = (char *)malloc(sizeof(char)*(size));
@@ -97,7 +97,7 @@ int main (int argc, const char *argv[]) {
 		printf("Le producteur numéro %d à fini \n", i);
 	}
 
-	//Ouverture du double fond 
+	//On peut kill les consommateurs
 	kill(nombreDeThread);
 
 	//On attend la fin des consommateurs
