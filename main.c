@@ -91,8 +91,20 @@ int main (int argc, const char *argv[]) {
 		printf("Création du thread de consommation numéro %d \n", i);
 	}
 
-
-	//Console
+	char ​*buffer = (char *​)malloc(sizeof(char)*65);
+	while(consoleInput){
+		unsigned int len;
+		int read = getline(&buffer, &len, stdin);
+		if(read != 0){
+			printf("error \n");
+			consoleInput = 0;
+		}
+		push(lineToFractal(buffer));
+		printf("Entrez stop ou juste enter pour entrer une fractal\n");
+		if(strcmp(buffer,'stop')
+			consoleInput = 0
+	}
+	free(buffer);
 
 
 	//Ce block permet d'attendre la fin de la lecture des fichiers
