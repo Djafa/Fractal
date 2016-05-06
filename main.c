@@ -21,11 +21,11 @@ int main (int argc, char *argv[]) {
 	if (str1 == NULL)
 		printf("Erreur malloc STR1\n");
 	strncpy(str1,"./fract_inputs/01input_testavg.txt", size1);
-	/*int size2 = strlen("./fract_inputs/02input_fewbig.txt")+1;
+	int size2 = strlen("./fract_inputs/02input_fewbig.txt")+1;
 	char *str2 = (char *)malloc(sizeof(char)*(size2));
 	if(str2 == NULL)
 		printf("Erreur malloc STR2\n");
-	strncpy(str2,"./fract_inputs/02input_fewbig.txt", size2);*/
+	strncpy(str2,"./fract_inputs/02input_fewbig.txt", size2);
 	int size3 = strlen("./fract_inputs/03input_manysmall.txt")+1;
 	char *str3 = (char *)malloc(sizeof(char)*(size3));
 	if(str3 == NULL)
@@ -38,13 +38,13 @@ int main (int argc, char *argv[]) {
 	error = initStack(10, nombreDeThread);
 	if(error !=0)
 		return EXIT_FAILURE;
-	int nbrFile = 2;
+	int nbrFile = 3;
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
 	char *arg [nbrFile];
-	arg [0] = str3;
-	arg [1] = str1;
-	//arg [2] = str3;
+	arg [0] = str1;
+	arg [1] = str2;
+	arg [2] = str3;
 
 	printf("Il y a %d threads de calcul \n", nombreDeThread);
 	printf("Il y a %d fichiers \n", nbrFile);
@@ -128,17 +128,11 @@ void *producteur(void *params){
 }
 
 struct fractal *lineToFractal(char *line){
-	const char *delim = " ";
- 	char *token = strtok(line, delim);
- 	if(token == NULL)
- 		return NULL;
- 	char *name  = (char *)malloc(sizeof(char)*(strlen(token)+1));
- 	strcpy(name, token);
- 	int w = atoi(strtok(NULL, delim));
- 	int h = atoi(strtok(NULL, delim));
- 	double a = atof(strtok(NULL, delim));
- 	double b = atof(strtok(NULL, delim));
- 	struct fractal *f =fractal_new(name, w, h, a, b);
+	int w, h;
+	double a, b;
+	char *name = (char *)malloc(sizeof(char)*65);
+	 sscanf(line, "%s %d %d %lf %lf", name, &w, &h, &a, &b);
+	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
  	return f;
 }

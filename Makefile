@@ -7,10 +7,10 @@ main: main.o stack/myStack.o
 	gcc -Wall -g -o main main.o stack/myStack.o libfractal/libfractal.a -lSDL -lpthread
 
 main.o: main.c
-	gcc -Wall -c main.c -lpthread
+	gcc -Wall -g -c main.c -lpthread
 	
 myStack.o: stack/myStack.c
-	gcc -Wall -c stack/myStack.c -lpthread
+	gcc -Wall -g -c stack/myStack.c -lpthread
 	
 test:
 	cd Test && make
