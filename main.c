@@ -30,13 +30,17 @@ int main (int argc, const char *argv[]) {
 		genAll = 0;
 
 	//Configuration du nombre de threads
-	if(argc > 2 && strcmp(argv[1],"--maxthreads") == 0 && atoi(argv[2])>1){
-		nombreDeThread = atoi(argv[2]);
-		start += 2;
+	if(argc > 2 && strcmp(argv[1],"--maxthreads") == 0){
+		if(atoi(argv[2])>1){
+			nombreDeThread = atoi(argv[2]);
+			start += 2;
+		}
 	}
-	else if(argc > 3 && strcmp(argv[2],"--maxthreads") == 0 && atoi(argv[3])>1){
-		nombreDeThread = atoi(argv[3]);
-		start += 2;
+	else if(argc > 3 && strcmp(argv[2],"--maxthreads") == 0){
+		if(atoi(argv[3])>1){
+			nombreDeThread = atoi(argv[3]);
+			start += 2;
+		}
 	}
 	else 
 		nombreDeThread = 4;
