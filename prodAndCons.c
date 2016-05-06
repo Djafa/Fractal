@@ -13,28 +13,26 @@ static double max_avg = 0; //Contient la meilleur moyenne
 struct fractal *maxF = NULL;
 pthread_mutex_t best;
 
-/*****************************************************************************************
- *																						 *
- *                          		PRODUCTEUR											 *	
- *																						 *
- * **************************************************************************************/
+/******************** Méthode pour les producteurs ********************/
 
-
-//Cette fonction prend en argument le nom d'un fihcier, i
-//elle va le lire et rajouter chaque ligne dans le buffer
+/* function producteur
+ * -------------------
+ * La fonction va lire le fichier et placer les fractales dans le buffer,
+ * les lignes commencent par un espace ou un # sont ignorées.
+ * @params : prend comme agrument un pointeur vers le nom du fichier à lire.
+ */
 void *producteur(void *params){
 	const char *fichier = (char*)params;
-	char *line = (char *)malloc(sizeof(char)*LENGTH_LINE); // string servant a acceuillir la ligne lue
+	char *line = (char *)malloc(sizeof(char)*LENGTH_LINE); 
 	if(line == NULL)
 		printf("Erreur malloc nom du fichier ! \n");
     FILE* file = NULL;
-	printf("Le nom du ficher est : %s \n", fichier);
     file = fopen(fichier, "r");
     
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
-			//Lecture de la ligne
-			if(*line != ' ' && *line != '#')// On ignore les lignes vides et les commentaires
+			//Si la ligne commence par un espace ou un #, elle sera ignorée
+			if(*line != ' ' && *line != '#')
 				push(lineToFractal(line));
 		}
 		fclose(file);
@@ -44,13 +42,22 @@ void *producteur(void *params){
 	pthread_exit(NULL);
 }
 
+/* function lineToFractal
+ * ----------------------
+ * Cette fonction converti une ligne en fractal
+ * @params : la ligne à convertir en fractal
+ * @return : si il y a une erreur renvoi null, sinon la fractal
+ */
+
 struct fractal *lineToFractal(char *line){
 	int w, h;
 	double a, b;
 	char *name = (char *)malloc(sizeof(char)*65);
 	if(name == NULL)
 		printf("Erreur lors de l'allocation du nom dans lineToFractal \n");
-	sscanf(line, "%s %d %d %lf %lf", name, &w, &h, &a, &b);
+	int err = sscanf(line, "%s %d %d %lf %lf", name, &w, &h, &a, &b);
+	if(err != 5)
+		return null;
 	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
  	return f;

@@ -10,8 +10,12 @@ static sem_t empty;
 static sem_t full;
 static node *head = NULL;
 
-//Ajoute la fractal dans le stack 
-//Renvoi -1, si il y a une erreur sinon 0
+/* function push
+ * -------------
+ * Ajout la fractal dans la liste
+ * @params : pointeur vers une fractal
+ * @return : 0 en cas de réussite, -1 en cas d'échec
+ */
 int push(struct fractal *f){
 	node *newNode = (node*)malloc(sizeof(node));
 	if(newNode == NULL){
@@ -23,41 +27,47 @@ int push(struct fractal *f){
 		return -1;
 	}
 	newNode->f=f;
-	//Critique
+	//Début de la zone critique
 	sem_wait(&empty);
 	pthread_mutex_lock(&mutex);
 	newNode->next=head;
 	head=newNode;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&full);
-	//Critique fin
+	//Fin de la zone critique
 	return 0;
 }
 
-//Retire une fractal de la liste pointée
-//Si la fractal est null, on kill le thread
+/* function pop
+ * ------------
+ * On retire une fractal de la pile, si la fractal est null,
+ * le thread courant sera tué.
+ */
 struct fractal *pop(){
-	//Section critique
+	//Début de la zone critique
 	sem_wait(&full);
 	pthread_mutex_lock(&mutex);
 	struct fractal *f = head->f;
 	node *save = head;
-	if(head == NULL)
-		printf("Head est NULL\n");
 	head = head->next;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&empty);
+	//Fin de la zone critique
 	//Si la fractal est null, on kill le thread
 	if(f == NULL){
-		printf("THREAD EXIT \n");
+		printf("Fin du thread courant !\n");
 		pthread_exit(NULL);
 	}
 	free(save);
 	return f;
 }
 
-//Initialisation de la stack
-//Renvoi -1, si il y a une erreur, sinon 0
+/* function initStack
+ * ------------------
+ * Cette fonction initialise la pile et les noeuds tueurs
+ * @param : la taille du buffer et le nombre de thread de calcul
+ * @return : 0 en cas de succès sinon -1
+ */
 int initStack(int taille, int maxThread){
 	pthread_mutex_init(&mutex, NULL);
 	sem_init(&empty, 0, taille);
@@ -78,7 +88,12 @@ int initStack(int taille, int maxThread){
 	return 0;
 }
 
-//Les consommateurs peuvent maintenant accèder aux nodes de kill
+/* function kill
+ * -------------
+ * Il faut lancer cette fonction, lorsque les producteurs ont fini,
+ * les consommateurs seront donc tués lorsque le buffer sera vide.
+ * @params : le nombre de consommateurs
+ */
 void kill(int maxThread){
 	printf("Procédure de kill !\n");
 	for(int i = 0; i<maxThread; i++){
@@ -86,6 +101,10 @@ void kill(int maxThread){
 	}
 }
 
+/* function destroy
+ * ----------------
+ * Destruction des mutexs et des sémaphores
+ */
 void destroy(){
 	pthread_mutex_destroy(&mutex);
 	sem_destroy(&empty);
