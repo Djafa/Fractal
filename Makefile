@@ -1,9 +1,9 @@
 all: main
 	make clean
 
-main: main.o stack/myStack.o prodAndCons.o
+main: main.o stack/myStack.o prodAndCons/prodAndCons.o
 	cd libfractal && make
-	gcc -Wall -g -o main main.o stack/myStack.o libfractal/libfractal.a prodAndCons.o -lSDL -lpthread
+	gcc -Wall -g -o main main.o stack/myStack.o libfractal/libfractal.a prodAndCons/prodAndCons.o -lSDL -lpthread
 
 main.o: main.c
 	gcc -Wall -g -c main.c -lpthread
