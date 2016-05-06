@@ -6,14 +6,14 @@
 #include "./libfractal/fractal.h"
 #include "./stack/myStack.h"
 #include "main.h"
-#include "prodAndCons.h"
+#include "./prodAndCons/prodAndCons.h"
 
-const int genAll;
+int genAll;
 
  
 int main (int argc, const char *argv[]) {
 	int start = 1;
-	const int nombreDeThread;
+	int nombreDeThread;
 	int consoleInput = 0; 
 
 	//Configuration de la génération
