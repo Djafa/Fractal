@@ -91,18 +91,26 @@ int main (int argc, const char *argv[]) {
 		printf("Création du thread de consommation numéro %d \n", i);
 	}
 
-	char ​*buffer = (char *​)malloc(sizeof(char)*65);
+	char *buffer = (char *)malloc(sizeof(char)*65);
 	while(consoleInput){
-		unsigned int len;
+		printf("Entrez une fractal \n");
+		size_t len;
 		int read = getline(&buffer, &len, stdin);
-		if(read != 0){
+		if(read == -1){
 			printf("error \n");
 			consoleInput = 0;
 		}
 		push(lineToFractal(buffer));
-		printf("Entrez stop ou juste enter pour entrer une fractal\n");
-		if(strcmp(buffer,'stop')
-			consoleInput = 0
+		printf("Entrez 1 pour arrêter ou juste enter pour entrer une fractal\n");
+		read = getline(&buffer, &len, stdin);
+		if(read == -1){
+			printf("error \n");
+			consoleInput = 0;
+		}
+		printf("%s \n", buffer);
+		if(atoi(buffer) == 1);
+			consoleInput = 0;
+
 	}
 	free(buffer);
 
