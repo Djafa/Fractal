@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "./libfractal/fractal.h"
-#include "./stack/myStack.h"
+#include "../libfractal/fractal.h"
+#include "../stack/myStack.h"
 #include "prodAndCons.h"
 
 #define LENGTH_LINE 1000
@@ -56,7 +56,7 @@ struct fractal *lineToFractal(char *line){
 		printf("Erreur lors de l'allocation du nom dans lineToFractal \n");
 	int err = sscanf(line, "%s %d %d %lf %lf", name, &w, &h, &a, &b);
 	if(err != 5)
-		return null;
+		return NULL;
 	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
  	return f;

@@ -12,16 +12,17 @@ int genAll;
 
  
 int main (int argc, const char *argv[]) {
+	printf("%d \n", argc);
 	int start = 1;
 	int nombreDeThread;
 	int consoleInput = 0; 
 
 	//Configuration de la génération
-	if(argc > 2 && strcmp(argv[1],'-d') == 0){
+	if(argc > 2 && strcmp(argv[1],"-d") == 0){
 		genAll = 1;
 		start++;
 	}
-	else if(argc > 3 && strcmp(argv[2],'-d')){
+	else if(argc > 3 && strcmp(argv[2],"-d") == 0){
 		genAll = 1;
 		start++;
 	}
@@ -29,11 +30,11 @@ int main (int argc, const char *argv[]) {
 		genAll = 0;
 
 	//Configuration du nombre de threads
-	if(argc > 2 && strcmp(argv[1],'--maxthreads') == 0){
+	if(argc > 2 && strcmp(argv[1],"--maxthreads") == 0){
 		nombreDeThread = atoi(argv[2]);
 		start += 2;
 	}
-	else if(argc > 3 && strcmp(argv[2],'--maxthreads') == 0){
+	else if(argc > 3 && strcmp(argv[2],"--maxthreads") == 0){
 		nombreDeThread = atoi(argv[3]);
 		start += 2;
 	}
@@ -42,20 +43,21 @@ int main (int argc, const char *argv[]) {
 
 	//On check si il y a un - en argument
 	for(int i = start; i<argc-1; i++){
-		if(strcmp(argv[i],'-') == 0)
-			consoleInput = 1;
+		if(i>= start && strcmp(argv[i],"-") == 0)
+			consoleInput = 1 ;
 	}
 
-	int nombreDeFichier = argv - 2 - start - consoleInput;
+	int nombreDeFichier = argc -1 - start - consoleInput;
 	char *tab[nombreDeFichier];
-	for(int i = start, int j = 0; j<nombreDeFichier; i++, j++){
-		if(strcmp(argv[i],'-') == 0)
+	int j = 0;
+	for(int i = start; j<nombreDeFichier; i++, j++){
+		if(strcmp(argv[i],"-") == 0)
 			i++;
 		int size = strlen(argv[i])+1;
 		tab[j] = (char *)malloc(sizeof(char)*(size));
-		if(str == NULL)
+		if(tab[j] == NULL)
 			printf("Erreur malloc \n");
-		strncpy(tab[j],argv[i], size1);
+		strncpy(tab[j],argv[i], size);
 	}
 
 	int error = initStack(BUFFER, nombreDeThread);
@@ -70,7 +72,7 @@ int main (int argc, const char *argv[]) {
 	printf("Il y a %d fichiers \n", nombreDeFichier);
 
 	//Création des threads de lecture (Producteurs)
-	for(int i = 0;i<nbrFile ; i++){
+	for(int i = 0;i<nombreDeFichier ; i++){
 		error = pthread_create(&(threadsP[i]), NULL, &producteur,tab[i]);
 		if(error != 0)
 			printf("%d \n", error);
@@ -90,7 +92,7 @@ int main (int argc, const char *argv[]) {
 
 
 	//Ce block permet d'attendre la fin de la lecture des fichiers
-	for(int i = 0; i<nbrFile ; i++){
+	for(int i = 0; i<nombreDeFichier ; i++){
 		error = pthread_join(threadsP[i], NULL);
 		if(error != 0)
 			printf("%d \n", error);
@@ -110,7 +112,10 @@ int main (int argc, const char *argv[]) {
 
 	//Destruction
 	printf("Et le gagnant est : %s \n", fractal_get_name(maxF));
-	write_bitmap_sdl(maxF, argv(argc-1) + ".bmp");
+	int sizeOfResult = strlen(argv[argc-1]);
+	char *result = (char*)malloc(sizeof(char)*(sizeOfResult+5));
+	strncpy(result,argv[argc-1],sizeOfResult+1);
+	write_bitmap_sdl(maxF, strcat(result, ".bmp"));
 	destroy();
 	pthread_mutex_destroy(&best);
 	fractal_free(maxF);
