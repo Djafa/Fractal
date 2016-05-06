@@ -5,11 +5,10 @@
 #include <semaphore.h>
 #include <pthread.h>
 
-pthread_mutex_t mutex; 
-sem_t empty; 
-sem_t full;
-
-node *head = NULL;
+static pthread_mutex_t mutex; 
+static sem_t empty; 
+static sem_t full;
+static node *head = NULL;
 
 //Ajoute la fractal dans le stack 
 //Renvoi -1, si il y a une erreur sinon 0
