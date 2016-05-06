@@ -23,14 +23,17 @@ int main (int argc, char *argv[]) {
 	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
 	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
 
+	int error; 
+
 	const int nombreDeThread = 4;
-	initStack(40, nombreDeThread);
+	error = initStack(40, nombreDeThread);
+	if(error !=0)
+		return EXIT_FAILURE;
 	int nbrFile = 3;
-	int err;
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
 	char *arg [nbrFile];
-	arg [0	] = str1;
+	arg [0] = str1;
 	arg [1] = str2;
 	arg [2] = str3;
 
@@ -39,7 +42,7 @@ int main (int argc, char *argv[]) {
 
 	//Création des threads de lecture (Producteurs)
 	for(int i = 0;i<nbrFile ; i++){
-		err = pthread_create(&(threadsP[i]), NULL, &producteur,arg[i]);
+		error = pthread_create(&(threadsP[i]), NULL, &producteur,arg[i]);
 		if(err != 0)
 			printf("%d \n", err);
 		printf("Création du thread de lecture numéro %d \n", i);
@@ -47,7 +50,7 @@ int main (int argc, char *argv[]) {
 
 	//Création des threads de calcul
 	for(int i = 0; i<nombreDeThread; i++){
-		err = pthread_create(&(threadsC[i]), NULL, &consommateur,NULL);
+		error = pthread_create(&(threadsC[i]), NULL, &consommateur,NULL);
 		if(err != 0)
 			printf("%d \n", err);
 		printf("Création du thread de consommation numéro %d \n", i);
@@ -55,7 +58,7 @@ int main (int argc, char *argv[]) {
 
 	//Ce block permet d'attendre la fin de la lecture des fichiers
 	for(int i = 0; i<nbrFile ; i++){
-		err = pthread_join(threadsP[i], NULL);
+		error = pthread_join(threadsP[i], NULL);
 		if(err != 0)
 			printf("%d \n", err);
 		printf("Le producteur numéro %d à fini \n", i);
@@ -70,9 +73,9 @@ int main (int argc, char *argv[]) {
 
 	//Join consommateur
 	for(int i = 0; i<nombreDeThread ; i++){
-		err = pthread_join(threadsC[i], NULL);
-		if(err != 0)
-			printf("%d \n", err);
+		error = pthread_join(threadsC[i], NULL);
+		if(error != 0)
+			printf("%d \n", error);
 		printf("Le consommateur numéro %d à fini \n", i);
 	}
 
@@ -99,6 +102,7 @@ void *producteur(void *params){
 	char *line = (char *)malloc(sizeof(char)*LENGTH_LINE); // string servant a acceuillir la ligne lue
     FILE* file = NULL;
     file = fopen(fichier, "r");
+    int err;
     
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {

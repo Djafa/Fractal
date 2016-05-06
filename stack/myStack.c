@@ -11,11 +11,16 @@ sem_t full;
 
 node *head = NULL;
 
-//Permet d'ajouter une fractal dans la liste
+//Ajoute la fractal dans le stack 
+//Renvoi -1, si il y a une erreur sinon 0
 int push(struct fractal *f){
 	node *newNode = (node*)malloc(sizeof(node));
 	if(newNode == NULL){
-		printf("Erreur lors de malloc dans push");
+		printf("Erreur lors du push d'un élément -> malloc \n");
+		return -1;
+	}
+	if(f == NULL){
+		printf("Erreur dans push, la fractal est null \n");
 		return -1;
 	}
 	newNode->f=f;
@@ -26,19 +31,24 @@ int push(struct fractal *f){
 	head=newNode;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&full);
+	//Critique fin
 	return 0;
 }
 
 //Retire une fractal de la liste pointée
+//Si la fractal est null, on kill le thread
 struct fractal *pop(){
+	//Section critique
 	sem_wait(&full);
 	pthread_mutex_lock(&mutex);
 	struct fractal *f = head->f;
 	node *save = head;
+	if(head == NULL)
+		printf("Head est NULL\n");
 	head = head->next;
 	pthread_mutex_unlock(&mutex);
 	sem_post(&empty);
-	//Kill thread
+	//Si la fractal est null, on kill le thread
 	if(f == NULL){
 		printf("THREAD EXIT \n");
 		pthread_exit(NULL);
@@ -48,7 +58,8 @@ struct fractal *pop(){
 }
 
 //Initialisation de la stack
-void initStack(int taille, int maxThread){
+//Renvoi -1, si il y a une erreur, sinon 0
+int initStack(int taille, int maxThread){
 	pthread_mutex_init(&mutex, NULL);
 	sem_init(&empty, 0, taille);
 	sem_init(&full, 0, 0);
@@ -56,7 +67,7 @@ void initStack(int taille, int maxThread){
 		node *newNode = (node*)malloc(sizeof(node));
 		if(newNode == NULL){
 			printf("Erreur lors de malloc dans l'Initialisation");
-			return;
+			return -1;
 		}
 		newNode->f=NULL;
 		//Critique
@@ -65,6 +76,7 @@ void initStack(int taille, int maxThread){
 		head=newNode;
 		pthread_mutex_unlock(&mutex);
 	}
+	return 0;
 }
 
 //Les consommateurs peuvent maintenant accèder aux nodes de kill

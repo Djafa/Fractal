@@ -8,7 +8,7 @@ typedef struct node {
 } node;
 
 //Permet l'initialisation du stack
-void initStack(int, int);
+int initStack(int, int);
 
 //Ajouter une fractale dans le stack
 int push(struct fractal*);
