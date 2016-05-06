@@ -84,11 +84,6 @@ int main (int argc, const char *argv[]) {
 			printf("%d \n", error);
 		printf("Le producteur numéro %d à fini \n", i);
 	}
-
-	//free(str1);
-	//free(str2);
-	//free(str3);
-
 	//Ouverture du double fond 
 	kill(nombreDeThread);
 
