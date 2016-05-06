@@ -1,8 +1,10 @@
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 #include "./libfractal/fractal.h"
+#include "./stack/myStack.h"
 #include "main.h"
 #include "prodAndCons.h"
 
@@ -12,7 +14,7 @@
 
 
 int main (int argc, const char *argv[]) {
-
+	int nombreDeThread = 4;
 	int size1 = strlen("./fract_inputs/01input_testavg.txt")+1;
 	char *str1 = (char *)malloc(sizeof(char)*(size1));
 	if (str1 == NULL)
@@ -93,34 +95,5 @@ int main (int argc, const char *argv[]) {
 	pthread_mutex_destroy(&best);
 	fractal_free(maxF);
 	return EXIT_SUCCESS;
-}
-
-int lectureConsole(int argc, const char *argv){
-	const int nombreDeThread;
-	int start = 1;
-
-	//Configuration de la génération pour chaque fractale
-	if(argc > 2 && strmcp(argv[1],'-d')){
-		global_generation = 1;
-		start ++;
-	}
-	else if(argc > 3 && strmcp(argv[2],'-d')){
-		global_generation = 1;
-		start ++;
-	}
-	else
-		global_generation = 0;
-
-	//Configuration du nombre de threads
-	if(argc > 2 && strmcp(argv[1], "--maxthreads") == 0){
-		nombreDeThread = atoi(argv[2]);
-		start++;
-	}
-	else if (argc > 3 && strmcp(argv[3], "--maxthreads") == 0){
-		nombreDeThread = atoi(argv[3]);
-		start++;
-	}
-	else 
-		nombreDeThread = 4;
 }
 

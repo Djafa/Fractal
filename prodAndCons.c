@@ -9,9 +9,6 @@
 
 //Variable de classe
 static double max_avg = 0; //Contient la meilleur moyenne
-static struct fractal *maxF = NULL; //Contient la fractal qui possède la meilleur moyenne 
-static pthread_mutex_t best; 
-static const int global_generation;
 
 /*****************************************************************************************
  *																						 *
