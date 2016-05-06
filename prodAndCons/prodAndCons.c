@@ -14,6 +14,7 @@
 static double max_avg = 0; //Contient la meilleur moyenne
 struct fractal *maxF = NULL;
 pthread_mutex_t best;
+int genAll;
 
 /******************** Méthode pour les producteurs ********************/
 
@@ -76,6 +77,7 @@ void *consommateur(void *params){
 		struct fractal *f= pop();
 		double current_avg = calculDeFractal(f);
 		//Critique
+		printf("%d \n", genAll);
 		if(genAll == 0){
 			pthread_mutex_lock(&best);
 			if(current_avg > max_avg){
@@ -90,9 +92,11 @@ void *consommateur(void *params){
 		}
 		else {
 			int sizeOfResult = 65;
-			char *result = (char*)malloc(sizeof(char)*(sizeOfResult+4));
+			char *result = (char*)malloc(sizeof(char)*(sizeOfResult+5));
+			printf("hey \n");
+			printf("%s \n", fractal_get_name(f));
 			strncpy(result,fractal_get_name(f),65);
-			write_bitmap_sdl(maxF, strcat(result,".bmp"));
+			write_bitmap_sdl(f, strcat(result,".bmp"));
 			free(result);
 		}
 
