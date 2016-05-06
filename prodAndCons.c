@@ -48,7 +48,6 @@ void *producteur(void *params){
  * @params : la ligne à convertir en fractal
  * @return : si il y a une erreur renvoi null, sinon la fractal
  */
-
 struct fractal *lineToFractal(char *line){
 	int w, h;
 	double a, b;
@@ -63,14 +62,13 @@ struct fractal *lineToFractal(char *line){
  	return f;
 }
 
+/******************* Méthode pour les consommateurs ********************/
 
-
-/*****************************************************************************************
- *																						 *
- *                          		CONSOMMATEUR										 *	
- *																						 *
- * **************************************************************************************/
-
+/* function consommateur 
+ * ---------------------
+ * On calcul les fractals dans le buffer, si sa moyenne est supérieur
+ * on l'enregistre, sinon on l'a free
+ */
 void *consommateur(void *params){
 	while(1){
 		struct fractal *f= pop();
@@ -89,16 +87,21 @@ void *consommateur(void *params){
 	}
 }
 
-//Calcul la fractal et renvoi la moyenne 
+/* function calculDeFractal
+ * ------------------------
+ * On calcul la fractal et on renvoi ça moyenne 
+ * @params : pointeur de la fractal à calculer
+ * @return : la moyenne de la fractal
+ */
 double calculDeFractal(struct fractal *f){
-	double avg = 0;
+	double sum = 0;
 	int w = fractal_get_width(f);
 	int h = fractal_get_height(f);
 	for(int x =0; x<w; x++){
 		for(int y =0; y<h ;y++){
 			fractal_compute_value(f,x,y);
-			avg += fractal_get_value(f,x,y);
+			sum += fractal_get_value(f,x,y);
 		}
 	}
-	return avg/(w*h);
+	return sum/(w*h);//Calcul de la moyenne 
 }
