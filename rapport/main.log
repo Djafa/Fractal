@@ -1,0 +1,271 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdftex 2016.5.6)  6 MAY 2016 12:57
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main.tex
+(./main.tex
+! Undefined control sequence.
+l.1 \documentclass
+                  [11pt]{article}
+? quit
+OK, entering \batchmode...
+! Undefined control sequence.
+l.2 \usepackage
+               [utf8x]{inputenc}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.3 \usepackage
+               {graphicx}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.4 \usepackage
+               {amssymb}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.5 \usepackage
+               [top=3cm, bottom=3cm, left=3.5cm, right=3.5cm]{geometry}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (15.85725pt too wide) in paragraph at lines 1--6
+[]\tenrm [11pt]article [utf8x]inputenc graph-icx amssymb [top=3cm, bot-tom=3cm,
+ left=3.5cm, right=3.5cm]geometry |
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm [
+.\tenrm 1
+.\tenrm 1
+.\tenrm p
+.etc.
+
+! Undefined control sequence.
+l.7 \title
+          {[LSINF1252] Syst√®me informatique : Fractales}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ® in font cmr10!
+! Undefined control sequence.
+l.8 \author
+           {Julian Roussieau, Damien Vaneberck }
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.9 \date
+         {Mai 2016}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.11 \begin
+           {document}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.13 \maketitle
+               
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.15 \section
+             {Architecture}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Runaway argument?
+ \\ La lecture de la ligne de commande peut se passer de diff√©rentes\ETC.
+! Paragraph ended before \\ was complete.
+<to be read again> 
+                   \par 
+l.31 
+     
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Undefined control sequence.
+l.36 \section
+             {Performance}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.38 \section
+             {Test Unitaire}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Runaway argument?
+ \\ \textbf {getName()}: Ce test permet de v√©rifi√© si la m√©thode f\ETC.
+! Paragraph ended before \\ was complete.
+<to be read again> 
+                   \par 
+l.57 
+     
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Undefined control sequence.
+l.58 \section
+             {Difficult√©s rencontr√©es}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no † in font cmr10!
+Runaway argument?
+ \\ Un autre soucis fut de r√©gler un probl√®me de fuite de m√©moire \ETC.
+! Paragraph ended before \\ was complete.
+<to be read again> 
+                   \par 
+l.63 
+     
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Undefined control sequence.
+l.64 \section
+             {Conclusion}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ª in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ª in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no © in font cmr10!
+ [1{/usr/local/texlive/2015basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+ )</usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
+.pfb>
+Output written on main.pdf (1 page, 23091 bytes).
+PDF statistics:
+ 12 PDF objects out of 1000 (max. 8388607)
+ 7 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

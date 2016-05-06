@@ -8,14 +8,16 @@
 #include "./libfractal/fractal.h"
 
 #define LENGTH_LINE 1000 // taille definie pour une ligne du fichier
+#define BUFFER 20
 
 //Variable de classe
-double max = 0; //Contient la meilleur moyenne
-struct fractal *maxF = NULL; //Contient la fractal qui possède la meilleur moyenne 
-pthread_mutex_t best; 
+static double max_avg = 0; //Contient la meilleur moyenne
+static struct fractal *maxF = NULL; //Contient la fractal qui possède la meilleur moyenne 
+static pthread_mutex_t best; 
+static const int global_generation;
 
-int main (int argc, char *argv[]) {
-	
+int main (int argc, const char *argv[]) {
+
 	int size1 = strlen("./fract_inputs/01input_testavg.txt")+1;
 	char *str1 = (char *)malloc(sizeof(char)*(size1));
 	if (str1 == NULL)
@@ -34,8 +36,8 @@ int main (int argc, char *argv[]) {
 
 	int error; 
 
-	const int nombreDeThread = 4;
-	error = initStack(10, nombreDeThread);
+	
+	error = initStack(BUFFER, nombreDeThread);
 	if(error !=0)
 		return EXIT_FAILURE;
 	int nbrFile = 3;
@@ -44,7 +46,7 @@ int main (int argc, char *argv[]) {
 	char *arg [nbrFile];
 	arg [0] = str1;
 	arg [1] = str2;
-	arg [2] = str3;
+	arg [2] = str3;   
 
 	printf("Il y a %d threads de calcul \n", nombreDeThread);
 	printf("Il y a %d fichiers \n", nbrFile);
@@ -98,6 +100,35 @@ int main (int argc, char *argv[]) {
 	return EXIT_SUCCESS;
 }
 
+int lectureConsole(int argc, const char *argv){
+	const int nombreDeThread;
+	int start = 1;
+
+	//Configuration de la génération pour chaque fractale
+	if(argc > 2 && strmcp(argv[1],'-d')){
+		global_generation = 1;
+		start ++;
+	}
+	else if(argc > 3 && strmcp(argv[2],'-d')){
+		global_generation = 1;
+		start ++;
+	}
+	else
+		global_generation = 0;
+
+	//Configuration du nombre de threads
+	if(argc > 2 && strmcp(argv[1], "--maxthreads") == 0){
+		nombreDeThread = atoi(argv[2]);
+		start++;
+	}
+	else if (argc > 3 && strmcp(argv[3], "--maxthreads") == 0){
+		nombreDeThread = atoi(argv[3]);
+		start++;
+	}
+	else 
+		nombreDeThread = 4;
+}
+
 /*****************************************************************************************
  *																						 *
  *                          		PRODUCTEUR											 *	
@@ -117,8 +148,9 @@ void *producteur(void *params){
     
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
-			//Lecture de la ligne	
-			push(lineToFractal(line));
+			//Lecture de la ligne
+			if(*line != ' ' && *line != '#')// On ignore les lignes vides et les commentaires
+				push(lineToFractal(line));
 		}
 		fclose(file);
 	}
@@ -131,7 +163,7 @@ struct fractal *lineToFractal(char *line){
 	int w, h;
 	double a, b;
 	char *name = (char *)malloc(sizeof(char)*65);
-	 sscanf(line, "%s %d %d %lf %lf", name, &w, &h, &a, &b);
+	sscanf(line, "%s %d %d %lf %lf", name, &w, &h, &a, &b);
 	struct fractal *f =fractal_new(name, w, h, a, b);
   	free(name);
  	return f;
@@ -148,13 +180,13 @@ struct fractal *lineToFractal(char *line){
 void *consommateur(void *params){
 	while(1){
 		struct fractal *f= pop();
-		double avg = calculDeFractal(f);
+		double current_avg = calculDeFractal(f);
 		//Critique
 		pthread_mutex_lock(&best);
-		if(avg > max){
+		if(current_avg > max_avg){
 			printf("Nouveau maximum avec %lf ! \n", avg);
 			free(maxF);
-			max = avg;
+			max_avg = current_avg;
 			maxF = f;
 		}
 		else
