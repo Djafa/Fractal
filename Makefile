@@ -4,7 +4,7 @@ all: main
 
 main: main.o stack/myStack.o
 	cd libfractal && make
-	gcc -Wall -o main main.o stack/myStack.o libfractal/libfractal.a -lSDL -lpthread
+	gcc -Wall -g -o main main.o stack/myStack.o libfractal/libfractal.a -lSDL -lpthread
 
 main.o: main.c
 	gcc -Wall -c main.c -lpthread

@@ -16,26 +16,35 @@ pthread_mutex_t best;
 
 int main (int argc, char *argv[]) {
 	
-	char *str1 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/01input_testavg.txt")+1));
-	strcpy(str1,"./fract_inputs/01input_testavg.txt");
-	char *str2 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/02input_fewbig.txt")+1));
-	strcpy(str2,"./fract_inputs/02input_fewbig.txt");
-	char *str3 = (char *)malloc(sizeof(char)*(strlen("./fract_inputs/03input_manysmall.txt")+1));
-	strcpy(str3,"./fract_inputs/03input_manysmall.txt");
+	int size1 = strlen("./fract_inputs/01input_testavg.txt")+1;
+	char *str1 = (char *)malloc(sizeof(char)*(size1));
+	if (str1 == NULL)
+		printf("Erreur malloc STR1\n");
+	strncpy(str1,"./fract_inputs/01input_testavg.txt", size1);
+	/*int size2 = strlen("./fract_inputs/02input_fewbig.txt")+1;
+	char *str2 = (char *)malloc(sizeof(char)*(size2));
+	if(str2 == NULL)
+		printf("Erreur malloc STR2\n");
+	strncpy(str2,"./fract_inputs/02input_fewbig.txt", size2);*/
+	int size3 = strlen("./fract_inputs/03input_manysmall.txt")+1;
+	char *str3 = (char *)malloc(sizeof(char)*(size3));
+	if(str3 == NULL)
+		printf("Erreur malloc STR3\n");
+	strncpy(str3,"./fract_inputs/03input_manysmall.txt", size3);
 
 	int error; 
 
 	const int nombreDeThread = 4;
-	error = initStack(40, nombreDeThread);
+	error = initStack(10, nombreDeThread);
 	if(error !=0)
 		return EXIT_FAILURE;
-	int nbrFile = 3;
+	int nbrFile = 2;
 	pthread_t threadsP[nbrFile];
 	pthread_t threadsC[nombreDeThread];
 	char *arg [nbrFile];
-	arg [0] = str1;
-	arg [1] = str2;
-	arg [2] = str3;
+	arg [0] = str3;
+	arg [1] = str1;
+	//arg [2] = str3;
 
 	printf("Il y a %d threads de calcul \n", nombreDeThread);
 	printf("Il y a %d fichiers \n", nbrFile);
@@ -43,30 +52,30 @@ int main (int argc, char *argv[]) {
 	//Création des threads de lecture (Producteurs)
 	for(int i = 0;i<nbrFile ; i++){
 		error = pthread_create(&(threadsP[i]), NULL, &producteur,arg[i]);
-		if(err != 0)
-			printf("%d \n", err);
+		if(error != 0)
+			printf("%d \n", error);
 		printf("Création du thread de lecture numéro %d \n", i);
 	}
 
 	//Création des threads de calcul
 	for(int i = 0; i<nombreDeThread; i++){
 		error = pthread_create(&(threadsC[i]), NULL, &consommateur,NULL);
-		if(err != 0)
-			printf("%d \n", err);
+		if(error != 0)
+			printf("%d \n", error);
 		printf("Création du thread de consommation numéro %d \n", i);
 	}
 
 	//Ce block permet d'attendre la fin de la lecture des fichiers
 	for(int i = 0; i<nbrFile ; i++){
 		error = pthread_join(threadsP[i], NULL);
-		if(err != 0)
-			printf("%d \n", err);
+		if(error != 0)
+			printf("%d \n", error);
 		printf("Le producteur numéro %d à fini \n", i);
 	}
 
-	free(str1);
-	free(str2);
-	free(str3);
+	//free(str1);
+	//free(str2);
+	//free(str3);
 
 	//Ouverture du double fond 
 	kill(nombreDeThread);
@@ -100,9 +109,11 @@ int main (int argc, char *argv[]) {
 void *producteur(void *params){
 	const char *fichier = (char*)params;
 	char *line = (char *)malloc(sizeof(char)*LENGTH_LINE); // string servant a acceuillir la ligne lue
+	if(line == NULL)
+		printf("Erreur malloc nom du fichier ! \n");
     FILE* file = NULL;
+	printf("Le nom du ficher est : %s \n", fichier);
     file = fopen(fichier, "r");
-    int err;
     
     if (file != NULL) {
 		while (fgets(line, LENGTH_LINE, file) != NULL) {
